@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8695303392079845026}
   - component: {fileID: 4560820066084209134}
   - component: {fileID: 3747732502946447614}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 1415008685231438277}
   - component: {fileID: 8976819129269935435}
   - component: {fileID: -5440384969004638594}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,3 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7345a5cd02fd41447b7b8218c7cf037e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ColorizableLayerMask:
+    serializedVersion: 2
+    m_Bits: 192
