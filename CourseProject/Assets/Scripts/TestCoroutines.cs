@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using Kryz.Tweening;
 using UnityEngine;
 
- 
-
 public class TestCoroutines : MonoBehaviour
 {
     [SerializeField] Transform[] m_WayPoints;
+
     IEnumerator m_MyCoroutine;
-    
-    // Coroutine : méthode à l'intérieur de laquelle on peut sortir et mettre en pause la méthode puis y revenir plus tard
-    // Start is called before the first frame update
 
     // Start is called before the first frame update
     void Start()
@@ -20,21 +16,22 @@ public class TestCoroutines : MonoBehaviour
         //StartCoroutine(UpdateCoroutineIA());
         //StartCoroutine(UpdateCoroutineGameLogic());
         //StartCoroutine(MyTools.TranslationCoroutine(transform,transform.position, transform.position + Random.onUnitSphere * 6, 2));
-
+        
     }
-    
+
     private void Update()
     {
         MyTools.LOG(this, "UPDATE");
+
     }
-    
+
     IEnumerator WaitCoroutine(float waitDuration)
     {
         Debug.Log("START WaitCoroutine");
         yield return new WaitForSeconds(waitDuration);
         Debug.Log("END WaitCoroutine");
     }
-    
+
     IEnumerator UpdateCoroutineIA()
     {
         MyTools.LOG(this, "Start UpdateCoroutineIA");
@@ -48,6 +45,7 @@ public class TestCoroutines : MonoBehaviour
         yield break; // return violent
     }
 
+
     IEnumerator UpdateCoroutineGameLogic()
     {
         MyTools.LOG(this, "Start UpdateCoroutineGameLogic");
@@ -57,29 +55,33 @@ public class TestCoroutines : MonoBehaviour
             yield return null; // atends la prochaine frame
         }
         MyTools.LOG(this, "End UpdateCoroutineGameLogic");
-        
+
         yield break; // return violent
     }
-    
+
     IEnumerator PatrolCoroutine(Transform[] wayPoints, float translationSpeed)
     {
         int indexWayPoint = 0;
-        
+
         while(true)
         {
-            // yield return StartCoroutine(MyTools.TranslationCoroutine(transform,wayPoints[indexWayPoint % wayPoints.Length].position,
-            //                                                 wayPoints[(indexWayPoint + 1) % wayPoints.Length].position,
-            //                                                 translationSpeed, EasingFunctions.InOutElastic));
             //Physics.gravity = Random.onUnitSphere * 10;
             yield return StartCoroutine(MyTools.BallisticsMvtCoroutine(transform, wayPoints[indexWayPoint % wayPoints.Length].position,
-                                                                       wayPoints[(indexWayPoint + 1) % wayPoints.Length].position,
-                                                                       1.25f, EasingFunctions.OutBounce,
-                                                                       () => { MyTools.ColorizeRandom(gameObject);},
-                                                                       () => { transform.localScale *= 1.2f;}));
+                                                            wayPoints[(indexWayPoint + 1) % wayPoints.Length].position,
+                                                            1.25f,
+                                                            EasingFunctions.OutSine,
+                                                            ()=> { MyTools.ColorizeRandom(gameObject); },
+                                                            ()=> { transform.localScale *= 1.2f; }));
+
+                /*MyTools.TranslationCoroutine(transform,wayPoints[indexWayPoint % wayPoints.Length].position,
+                                                            wayPoints[(indexWayPoint + 1) % wayPoints.Length].position,
+                                                            translationSpeed,
+                                                            EasingFunctions.InOutElastic));*/
+
             yield return new WaitForSeconds(1);
             indexWayPoint++;
         }
-        
+
     }
 
     void OnGUI()
@@ -94,11 +96,12 @@ public class TestCoroutines : MonoBehaviour
             StopAllCoroutines();
             m_MyCoroutine = null;
         }
+
         if (GUI.Button(new Rect(10, 110, 200, 40), "START COROUTINE"))
         {
             m_MyCoroutine = PatrolCoroutine(m_WayPoints, 4); // Closure ... attention la méthode n'est pas appelée ici
             StartCoroutine(m_MyCoroutine);
         }
-        
+
     }
 }
