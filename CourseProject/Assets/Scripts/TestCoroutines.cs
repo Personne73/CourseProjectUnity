@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Kryz.Tweening;
 using UnityEngine;
 
  
@@ -66,10 +67,15 @@ public class TestCoroutines : MonoBehaviour
         
         while(true)
         {
-            yield return StartCoroutine(MyTools.TranslationCoroutine(transform,wayPoints[indexWayPoint % wayPoints.Length].position,
-                                                            wayPoints[(indexWayPoint + 1) % wayPoints.Length].position,
-                                                            translationSpeed));
-            
+            // yield return StartCoroutine(MyTools.TranslationCoroutine(transform,wayPoints[indexWayPoint % wayPoints.Length].position,
+            //                                                 wayPoints[(indexWayPoint + 1) % wayPoints.Length].position,
+            //                                                 translationSpeed, EasingFunctions.InOutElastic));
+            //Physics.gravity = Random.onUnitSphere * 10;
+            yield return StartCoroutine(MyTools.BallisticsMvtCoroutine(transform, wayPoints[indexWayPoint % wayPoints.Length].position,
+                                                                       wayPoints[(indexWayPoint + 1) % wayPoints.Length].position,
+                                                                       1.25f, EasingFunctions.OutBounce,
+                                                                       () => { MyTools.ColorizeRandom(gameObject);},
+                                                                       () => { transform.localScale *= 1.2f;}));
             yield return new WaitForSeconds(1);
             indexWayPoint++;
         }
