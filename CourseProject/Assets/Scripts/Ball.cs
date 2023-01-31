@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using SDD.Events;
 public class Ball : MonoBehaviour
 {
     [SerializeField] private LayerMask m_ColorizableLayerMask;
@@ -23,8 +23,10 @@ public class Ball : MonoBehaviour
         //     MyTools.ColorizeRandom(collision.gameObject);
         
         // IDENTIFICATION FONCTIONNELLE PAR INTERFACE
-        IDestroyable destroyable = collision.gameObject.GetComponent<IDestroyable>();
-        if (null != destroyable)
-            destroyable.Kill();
+        // IDestroyable destroyable = collision.gameObject.GetComponent<IDestroyable>();
+        // if (null != destroyable)
+        //     destroyable.Kill();
+        
+        EventManager.Instance.Raise(new EnemyHasBeenHitEvent() { eEnemy = collision.gameObject});
     }
 }

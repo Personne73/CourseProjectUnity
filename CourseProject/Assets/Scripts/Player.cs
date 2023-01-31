@@ -54,6 +54,8 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!GameManager.Instance.IsPlaying) return; // HACK !! je n'utilise pas les évènements pour changer l'état
+                                                     // du jeu car j'ai la flemme
         // Comportement dynamiques
         float hInput = Input.GetAxisRaw("Horizontal");
         float vInput = Input.GetAxis("Vertical");
